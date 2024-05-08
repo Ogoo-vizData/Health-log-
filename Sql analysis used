@@ -1,0 +1,141 @@
+SELECT TOP (1000) [age]
+      ,[sex]
+      ,[chest_pain_type]
+      ,[resting_bp_s]
+      ,[cholesterol]
+      ,[fasting_blood_sugar]
+      ,[resting_ecg]
+      ,[max_heart_rate]
+      ,[exercise_angina]
+      ,[oldpeak]
+      ,[ST_slope]
+      ,[target]
+  FROM [Analysis].[dbo].[heart_statlog]
+
+  --preview of the table
+select * from [dbo].[heart_statlog]
+
+--alter data type 
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN sex VARCHAR(10);
+
+ -- replace 1 with male and 0 with female 
+ UPDATE [dbo].[heart_statlog]
+SET sex = CASE
+			WHEN SEX = 1 THEN 'MALE'
+			WHEN SEX = 0 THEN 'FEMALE'
+			ELSE SEX 
+		END;
+
+--aleter data type 
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN chest_pain_type VARCHAR(20);
+
+
+
+--replace chest pain types with their types
+-- Value 1: typical angina
+-- Value 2: atypical angina
+-- Value 3: non-anginal pain
+-- Value 4: asymptomatic
+ UPDATE [dbo].[heart_statlog]
+SET chest_pain_type = CASE
+						WHEN chest_pain_type = 1 THEN 'TYPICAL ANGINA'
+						WHEN chest_pain_type = 2 THEN 'ATYPICAL ANGINA'
+						WHEN chest_pain_type = 3 THEN 'NON-ANGINAL PAIN'
+						WHEN chest_pain_type = 4 THEN 'ASYMPTOMATIC'
+						ELSE chest_pain_type 
+					END;
+
+  --preview of the table
+select * from [dbo].[heart_statlog]
+
+--Alter column
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN fasting_blood_sugar VARCHAR(20);
+
+--replace fast sugar with data
+--fasting blood sugar > 120 mg/dl) (1 = true; 0 = false)
+ UPDATE [dbo].[heart_statlog]
+SET fasting_blood_sugar = CASE
+						WHEN fasting_blood_sugar = 0 THEN 'FALSE'
+						WHEN fasting_blood_sugar = 1 THEN 'TRUE'
+						ELSE fasting_blood_sugar
+					END;
+
+  --preview of the table
+select * from [dbo].[heart_statlog]
+
+--replace resting_ecg with data
+--- Value 0: normal
+-- Value 1: having ST-T wave abnormality (T wave inversionsn and/or ST elevation or depression of > 0.05 mV)
+-- Value 2: showing probable or definite left ventricularnhypertrophy by Estes' criteria
+ 
+ --Alter column
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN resting_ecg VARCHAR(50);
+
+ UPDATE [dbo].[heart_statlog]
+SET resting_ecg = CASE
+						WHEN resting_ecg = 0 THEN 'NORMAL'
+						WHEN resting_ecg = 1 THEN 'ST-T ABNORMALITY'
+						WHEN resting_ecg = 2 THEN 'LIKELY VENTRICULARNHYPERTROPHY'
+						ELSE resting_ecg
+					END;
+
+  --preview of the table
+select * from [dbo].[heart_statlog]
+
+--alter and update column
+--Exercise induced angina
+-- 1 = yes; 0 = no
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN exercise_angina VARCHAR(50);
+
+UPDATE  [dbo].[heart_statlog]
+SET exercise_angina = CASE
+						WHEN exercise_angina = 1 THEN 'YES'
+						WHEN exercise_angina = 0 THEN 'NO'
+					END;
+
+ --preview of the table
+select * from [dbo].[heart_statlog]
+
+--Alter column and update data
+--the slope of the peak exercise ST segment
+-- Value 1: upsloping
+-- Value 2: flat
+-- Value 3: downsloping
+
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN ST_SLOPE VARCHAR(50);
+
+
+UPDATE [dbo].[heart_statlog]
+SET ST_SLOPE = 
+    CASE
+        WHEN ST_SLOPE = '1' THEN 'UNSLOPING'
+        WHEN ST_SLOPE = '2' THEN 'FLAT'
+        WHEN ST_SLOPE = '3' THEN 'DOWNSLOPING'
+        ELSE ST_SLOPE
+    END;
+
+ --preview of the table
+select * from [dbo].[heart_statlog]
+
+--ALTER TABLE AND UPDATE DATA 
+--class 1 = heart disease, 0 = Normclass 1 = heart disease, 0 = NormAL
+
+ALTER TABLE [dbo].[heart_statlog]
+ALTER COLUMN target VARCHAR(20);
+
+UPDATE [dbo].[heart_statlog]
+	SET target = CASE
+					WHEN TARGET = 0 THEN 'HEART DISEASE'
+					WHEN TARGET = 1 THEN 'NORMAL'
+					ELSE TARGET
+				END;
+
+
+ --preview of the table
+select * from [dbo].[heart_statlog]
